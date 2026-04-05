@@ -59,7 +59,7 @@ app.use('/api', (req, res, next) => {
 // Global rate limiter
 const globalLimiter = rateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
-  max: 30,
+  max: 20,
   message: { success: false, message: 'Terlalu banyak request. Tunggu sebentar.' },
   standardHeaders: true,
   legacyHeaders: false,
@@ -135,7 +135,7 @@ app.get('/api/init', async (req, res) => {
   try {
     await savePageLoad(ip, token);
     const maxLikesConfig = await getConfig('max_likes');
-    const maxLikes = parseInt(maxLikesConfig) || 30;
+    const maxLikes = parseInt(maxLikesConfig) || 20;
 
     res.json({
       success: true,
@@ -193,7 +193,7 @@ app.post('/api/claim', claimLimiter, async (req, res) => {
   }
 
   const maxLikesConfig = await getConfig('max_likes');
-  const maxLikes = parseInt(maxLikesConfig) || 30;
+  const maxLikes = parseInt(maxLikesConfig) || 20;
 
   try {
     const result = await saveClaim(ip, url, maxLikes, 'processing');
@@ -249,7 +249,7 @@ app.post('/api/claim', claimLimiter, async (req, res) => {
 
 app.get('/api/config', async (req, res) => {
   const maxLikesConfig = await getConfig('max_likes');
-  const maxLikes = parseInt(maxLikesConfig) || 30;
+  const maxLikes = parseInt(maxLikesConfig) || 20;
   res.json({ maxLikes });
 });
 
